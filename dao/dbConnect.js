@@ -2,7 +2,7 @@
  * @Author: Wyfkkk 2224081986@qq.com
  * @Date: 2024-04-21 11:02:21
  * @LastEditors: Wyfkkk 2224081986@qq.com
- * @LastEditTime: 2024-04-21 11:13:23
+ * @LastEditTime: 2024-04-21 21:32:39
  * @FilePath: \mysite-node\mysite-express\dao\dbConnect.js
  * @Description: 
  * 
@@ -11,16 +11,12 @@
 // 连接数据库
 const { Sequelize } = require("sequelize");
 // 创建连接
-const sequelize = new Sequelize('mysite2', 'root', 'wang010504', {
-    host: 'localhost',
+// const sequelize = new Sequelize(process.env.DB_NAME,process.env.DB_USER, process.env.DB_PASS, {
+//     host: process.env.DB_HOST,
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
+    host: process.env.DB_HOST,
     dialect: 'mysql',
     logging: false,
 });
-(async function() {
-    try {
-        await sequelize.authenticate();
-        console.log('连接成功');
-    } catch(err) {
-        console.error('连接失败', err);
-    };
-}())
+// 向外暴露链接实例
+module.exports = sequelize;

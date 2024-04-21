@@ -2,7 +2,7 @@
  * @Author: Wyfkkk 2224081986@qq.com
  * @Date: 2024-04-21 09:51:36
  * @LastEditors: Wyfkkk 2224081986@qq.com
- * @LastEditTime: 2024-04-21 11:07:59
+ * @LastEditTime: 2024-04-21 21:49:45
  * @FilePath: \mysite-node\mysite-express\app.js
  * @Description: 
  * 
@@ -16,8 +16,11 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+// 默认读取项目根目录下的.env环境
+require("dotenv").config()
 // 引入数据库连接
-require('./dao/dbConnect')
+require('./dao/db')
+
 // 创建服务器实例
 var app = express();
 
