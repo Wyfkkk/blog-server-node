@@ -10,7 +10,7 @@ var express = require('express');
 var router = express.Router();
 var { formatResponse, analysisToken } = require("../utils/tool")
 
-const { loginService } = require("../service/adminService");
+const { loginService, updateAdminService } = require("../service/adminService");
 
 // 登录
 router.post('/login', async function(req, res, next) {
@@ -35,6 +35,11 @@ router.get("/whoami", async function(req, res, next){
         "id": token.id
     }))
 
+})
+
+// 
+router.put('/', async function(req, res, next) {
+    res.send(await updateAdminService(req.body));
 })
 
 module.exports = router;
