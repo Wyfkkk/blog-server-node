@@ -9,7 +9,11 @@ module.exports.loginService = async function(loginInfo) {
     console.log(data,'data');
     if(data && data.dataValues) {
         // 添加token
-        data = data.dataValues;
+        data = {
+            id: data.dataValues.id,
+            loginId: data.dataValues.loginId,
+            name: data.dataValues.name,
+        }
         var loginPeriod = null;
         // 如果用户选中了七天
         if(loginInfo.remember) {
