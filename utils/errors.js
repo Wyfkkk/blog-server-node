@@ -1,63 +1,63 @@
-/*
- * @Author: Wyfkkk 2224081986@qq.com
- * @Date: 2024-04-21 20:28:53
- * @LastEditors: Wyfkkk 2224081986@qq.com
- * @LastEditTime: 2024-04-21 20:44:39
- * @FilePath: \mysite-node\mysite-express\utils\errors.js
- * @Description: 
- * 
- * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
- */
-// 自定义错误 
-// 当发生错误，捕获发生的错误，然后抛出我们自定义的错误
+// 自定义错误
+// 当错误发生的时候，我们捕获到发生的错误，然后抛出我们自定义的错误
+const { formatResponse } = require("./tool")
+
 
 /**
- * 业务错误处理基类
- * @param {*} message 错误消息
+ * 业务处理错误基类
  */
 class ServiceError extends Error {
+    /**
+     * 
+     * @param {*} message 错误消息
+     * @param {*} code 错误的消息码
+     */
     constructor(message, code) {
         super(message);
         this.code = code;
     }
+
     // 方法
+    // 格式化的返回错误信息
     toResponseJSON() {
-
+        return formatResponse(this.code, this.message, null);
     }
-
 }
+
 // 文件上传错误
-exports.UploadError = class extends ServiceError{
+exports.UploadError = class extends ServiceError {
     constructor(message) {
         super(message, 413);
     }
 }
-new this.UploadError("文件尺寸过大")
-
-
 
 // 禁止访问错误
-exports.ForbiddenError = class extends ServiceError{
+exports.ForbiddenError = class extends ServiceError {
     constructor(message) {
         super(message, 401);
     }
 }
+
 // 验证错误
-exports.ValidationError = class extends ServiceError{
+exports.ValidationError = class extends ServiceError {
     constructor(message) {
         super(message, 406);
     }
 }
-// 无资源错误（404）
-exports.NotFoundError = class extends ServiceError{
+
+// 无资源错误
+exports.NotFoundError = class extends ServiceError {
     constructor() {
         super("not found", 406);
     }
 }
+
+
 // 未知错误
-exports.UnknownError = class extends ServiceError{
+exports.UnknownError = class extends ServiceError {
     constructor() {
-        super("服务端错误", 500);
+        super("server internal error", 500);
     }
 }
+
 module.exports.ServiceError = ServiceError;

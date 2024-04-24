@@ -6,13 +6,12 @@ module.exports.loginService = async function(loginInfo) {
     loginInfo.loginPwd = md5(loginInfo.loginPwd);
     // 接下来进行数据验证
     let data = await loginDao(loginInfo);
-    console.log(data,'data');
-    if(data && data.dataValues) {
+    if(data && data.result.dataValues) {
         // 添加token
         data = {
-            id: data.dataValues.id,
-            loginId: data.dataValues.loginId,
-            name: data.dataValues.name,
+            id: data.result.dataValues.id,
+            loginId: data.result.dataValues.loginId,
+            name: data.result.dataValues.name,
         }
         var loginPeriod = null;
         // 如果用户选中了七天
@@ -22,11 +21,7 @@ module.exports.loginService = async function(loginInfo) {
             loginPeriod = 1;
         }
         // 生成token
-        const token = jwt.sign({
-            id: data.id,
-            loginId: data.loginId,
-            name: data.name,
-        }, md5(process.env.JWT_SECRET), {expiresIn: 60 * 60 * 24 * loginPeriod})
+        const token = jwt.sign(data, md5(process.env.JWT_SECRET), {expiresIn: 60 * 60 * 24 * loginPeriod})
         return {
             token, data
         }
